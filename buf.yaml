@@ -1,0 +1,22 @@
+version: v1
+name: buf.build/matrix/proto
+deps:
+  - buf.build/googleapis/googleapis
+breaking:
+  use:
+    - FILE
+lint:
+  use:
+    - DEFAULT
+  ignore:
+    - PACKAGE_DIRECTORY_MATCH
+  ignore_only:
+    PACKAGE_VERSION_SUFFIX:
+      - matrix/common/v1/common.proto
+      - matrix/node/v1/peer.proto
+      - matrix/node/v1/message.proto
+      - matrix/agent/v1/lifecycle.proto
+      - matrix/agent/v1/metrics.proto
+      - matrix/kv/v1/crdt.proto
+      - matrix/control/v1/node.proto
+      - matrix/marketplace/v1/registry.proto

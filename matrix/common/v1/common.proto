@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package matrix.common.v1;
+
+option go_package = "github.com/ecirlabs/matrix-proto/gen/go/matrix/common/v1;common";
+
+message Empty {}
+
+message Uuid {
+    string value = 1;
+}
+
+message PeerId {
+    string value = 1;
+}
+
+enum Status {
+    STATUS_UNSPECIFIED = 0;
+    STATUS_OK = 1;
+    STATUS_ERROR = 2;
+    STATUS_NOT_FOUND = 3;
+    STATUS_UNAUTHORIZED = 4;
+    STATUS_INVALID_ARGUMENT = 5;
+}
+
+message StatusResponse {
+    Status status = 1;
+    string message = 2;
+}
+
+message Metadata {
+    map<string, string> headers = 1;
+    uint64 timestamp = 2;
+    string version = 3;
+}
+
+message Envelope {
+    Uuid id = 1;
+    PeerId src = 2;
+    PeerId dst = 3;
+    uint64 seq_no = 4;  // Monotonic sequence number
+    bytes payload = 5;
+    bytes signature = 6;  // Ed25519 signature
+    Metadata metadata = 7;
+}

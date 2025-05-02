@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package matrix.agent.v1;
+
+import "google/protobuf/timestamp.proto";
+import "matrix/common/v1/common.proto";
+
+option go_package = "github.com/ecirlabs/matrix-proto/gen/go/matrix/agent/v1;agent";
+
+message AgentManifest {
+    string name = 1;
+    string version = 2;
+    string description = 3;
+    map<string, string> metadata = 4;
+    repeated string capabilities = 5;
+    repeated string dependencies = 6;
+}
+
+message DeployRequest {
+    AgentManifest manifest = 1;
+    bytes wasm_module = 2;
+    map<string, string> config = 3;
+}
+
+message DeployResponse {
+    matrix.common.v1.Status status = 1;
+    string agent_id = 2;
+    string message = 3;
+}
+
+message StopRequest {
+    string agent_id = 1;
+    bool force = 2;
+}
+
+message StopResponse {
+    matrix.common.v1.Status status = 1;
+    string message = 2;
+}
+
+message StatusRequest {
+    matrix.common.v1.Uuid agent_id = 1;
+}
+
+message StatusResponse {
+    string agent_id = 1;
+    AgentManifest manifest = 2;
+    enum State {
+        STATE_UNSPECIFIED = 0;
+        STATE_STARTING = 1;
+        STATE_RUNNING = 2;
+        STATE_STOPPING = 3;
+        STATE_STOPPED = 4;
+        STATE_FAILED = 5;
+    }
+    State state = 3;
+    google.protobuf.Timestamp started_at = 4;
+    google.protobuf.Timestamp updated_at = 5;
+    string error_message = 6;
+}
+
+service AgentLifecycleService {
+    rpc Deploy(DeployRequest) returns (DeployResponse) {}
+    rpc Stop(StopRequest) returns (StopResponse) {}
+    rpc Status(StatusRequest) returns (stream StatusResponse) {}
+} 

@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package matrix.node.v1;
+
+import "google/protobuf/timestamp.proto";
+import "matrix/common/v1/common.proto";
+
+option go_package = "github.com/ecirlabs/matrix-proto/gen/go/matrix/node/v1;node";
+
+message PingRequest {
+    matrix.common.v1.Envelope envelope = 1;
+}
+
+message PingResponse {
+    matrix.common.v1.Envelope envelope = 1;
+}
+
+message PeerInfo {
+    matrix.common.v1.PeerId id = 1;
+    string address = 2;
+    google.protobuf.Timestamp seen_at = 3;
+}
+
+service PeerService {
+    rpc Ping(PingRequest) returns (PingResponse) {}
+}
