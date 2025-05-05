@@ -1,97 +1,88 @@
 # Matrix Proto
 
-Protocol Buffer definitions for the Matrix distributed system components.
+This repository contains the Protocol Buffer definitions for Matrix OS, a peer-to-peer orchestration system for autonomous AI agents. The protocol definitions enable standardized communication and interaction between AI agents, their environments, and the underlying infrastructure.
 
 ## Overview
 
-This repository contains the Protocol Buffer definitions for the Matrix system's microservices and components. It defines the contract for inter-service communication and data structures used throughout the system.
+Matrix OS uses Protocol Buffers to define:
+- Soul (Agent) lifecycle and capabilities
+- Inter-agent messaging and communication
+- Memory and knowledge management
+- Value systems and goal-oriented behavior
+- Matrix (environment) interactions
+- Resource management and sandboxing
 
-## Components
+## Repository Structure
 
-### Agent (matrix/agent/v1)
-- **Metrics**: System metrics collection and reporting
-  - CPU and memory statistics
-  - Custom metric support
-  - Real-time metrics streaming
-
-### Control (matrix/control/v1)
-- **Node Control**: Management interface for Matrix nodes
-  - Health checking
-  - Version information
-  - Graceful shutdown
-  - Metrics retrieval
-
-### Key-Value Store (matrix/kv/v1)
-- **CRDT Service**: Conflict-free replicated data types implementation
-  - Key-value operations (Get, Put, Delete)
-  - Value merging
-  - Snapshot management
-  - Prefix scanning
-
-### Marketplace (matrix/marketplace/v1)
-- **Registry Service**: Module marketplace functionality
-  - Module publishing
-  - Module downloading
-  - Search capabilities
-  - Payment verification
-
-## Prerequisites
-
-- [Protocol Buffers Compiler](https://github.com/protocolbuffers/protobuf) (protoc)
-- [Buf](https://buf.build/docs/installation) - Modern Protocol Buffers tooling
-- Go 1.20 or later (for Go code generation)
-
-## Getting Started
-
-1. **Install Buf**
-   ```bash
-   brew install bufbuild/buf/buf   # macOS
-   ```
-
-2. **Generate Code**
-   ```bash
-   buf generate
-   ```
-
-3. **Lint Protos**
-   ```bash
-   buf lint
-   ```
-
-## Development
-
-### Project Structure
 ```
 .
 ├── matrix/
-│   ├── agent/v1/          # Agent-related definitions
-│   ├── common/v1/         # Shared types and utilities
-│   ├── control/v1/        # Node control interface
-│   ├── kv/v1/            # Key-value store operations
-│   └── marketplace/v1/    # Module marketplace
-├── buf.yaml              # Buf configuration
-├── buf.gen.yaml          # Code generation configuration
-└── buf.lock             # Dependency lock file
+│   ├── common/v1/      # Common types and utilities
+│   ├── soul/v1/        # Soul (agent) related definitions
+│   │   ├── messaging.proto    # Agent communication
+│   │   ├── lifecycle.proto    # Agent lifecycle management
+│   │   └── memory.proto       # Memory and knowledge
+│   └── matrix/v1/      # Matrix (environment) definitions
+│       ├── interaction.proto  # P2P interactions
+│       └── sandbox.proto      # Resource management
 ```
 
-### Making Changes
+## Key Components
 
-1. Make changes to `.proto` files
-2. Run `buf lint` to ensure compliance with best practices
-3. Run `buf generate` to update generated code
-4. Commit changes and create a pull request
+### Soul Service
+- Agent lifecycle management (creation, training, updates)
+- Stateless and streaming inference
+- Bidirectional chat capabilities
+- Training state management
+
+### Memory Service
+- Memory storage and retrieval
+- Value system management
+- Goal tracking and updates
+- Context-aware memory queries
+
+### Matrix Service
+- P2P message routing
+- Event observation and streaming
+- Emergent signal detection
+- Resource policy enforcement
+
+### Sandbox Service
+- Resource limits and quotas
+- Network access controls
+- Storage policies
+- Computation constraints
+- Interaction rules
+
+## Usage
+
+1. Install the Protocol Buffer compiler (protoc)
+2. Install language-specific plugins as needed
+3. Use `buf` for linting and generation:
+
+```bash
+# Lint proto files
+buf lint
+
+# Generate code
+buf generate
+```
 
 ## Best Practices
 
-- Use specific response types for each RPC method
-- Follow consistent naming conventions
-- Include comprehensive field documentation
-- Maintain backward compatibility
-- Use appropriate field numbers and types
+1. Follow standard Protocol Buffer naming conventions
+2. Use appropriate response types for all RPCs
+3. Include proper documentation for messages and fields
+4. Maintain backward compatibility when making changes
+5. Use common types from matrix/common/v1
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us. We welcome contributions and value the input of our community!
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes following the style guide
+4. Run linting and tests
+5. Submit a pull request
 
 ## License
 
